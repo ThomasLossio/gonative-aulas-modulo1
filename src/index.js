@@ -1,44 +1,46 @@
-import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, Button } from "react-native";
+import React, { Component } from 'react';
+import {
+  Platform, StyleSheet, Text, View,
+} from 'react-native';
 
-import Todo from './components/Todo'
+import './config/ReactotronConfig';
+import './config/DevToolsConfig';
 
+import Todo from './components/Todo';
 
+const styles = StyleSheet.create({
+  text: {
+    ...Platform.select({
+      ios: {
+        fontWeight: 'bold',
+      },
+      android: {
+        fontSize: 24,
+      },
+    }),
+  },
+});
 
 export default class App extends Component {
   state = {
-    usuario: 'Thomas Lossio',
-    todos: [
-      { id: 0, text: 'Fazer café' },
-      { id: 1, text: 'Estudar o GoNative' },
-
-    ]
-  }
+    todos: [{ id: 0, text: 'Fazer café' }, { id: 1, text: 'Estudar o GoNative' }],
+  };
 
   addTodo = () => {
     this.setState({
-      todos: [...this.state.todos, { id: Math.random(), text: 'Estudar Javascript' }]
-    })
-  }
+      todos: [...this.state.todos, { id: Math.random(), text: 'Estudar Javascript' }],
+    });
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.usuario}</Text>
-        {this.state.todos.map(todo => (
-          <Todo key={todo.id} title={todo.text} />
-        ))}
-        <Button title="Adicionar todo" onPress={this.addTodo} />
+        {Platform.OS === 'ios' ? (
+          <Text style={styles.text}>Texto</Text>
+        ) : (
+          <Text style={styles.text}>Android</Text>
+        )}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5"
-  },
-});
